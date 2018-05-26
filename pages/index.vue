@@ -1,0 +1,232 @@
+<template>
+  <v-app light>
+    <v-toolbar dark color="primary" fixed>
+      <img src="~/static/logo.png" alt="Logo de la archidiócesis">
+      <v-spacer></v-spacer>
+      <v-toolbar-title>Iglesia en Camino
+        <v-spacer></v-spacer>Semanario de la Archidiócesis de Mérida-Badajoz (España) </v-toolbar-title>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <v-content>
+
+      <v-layout column wrap class="mt-5 pt-3" align-center>
+        <v-flex xs12 sm4 pt8 class="my-3">
+          <div class="text-xs-center">
+            <span class="headline">
+              Diciembre de 1996 - {{currentYearMonth}} de {{currentYear}}
+            </span>
+          </div>
+        </v-flex>
+      </v-layout>
+
+      <section>
+        <v-parallax :src="escudo" height="700">
+          <a :href="currentPDF">
+            <v-layout column align-center justify-center class="white--text">
+              <div class="subheading mb-3 text-xs-center"></div>
+              <img class="my-4 py-4" :src="currentImage" height="768" alt="Última revista">
+            </v-layout>
+          </a>
+        </v-parallax>
+      </section>
+
+      <section>
+        <v-layout row wrap class="pt-2" align-center>
+          <v-flex xs12>
+            <div class="text-xs-center">
+              <span class="subheading">
+                Última revista:
+              </span>
+              <a :href="currentPDF">
+                <h2 class="headline">Número {{numberCurrentIssue}}, {{currentDay}} de {{currentYearMonth}} de {{currentYear}}</h2>
+              </a>
+            </div>
+          </v-flex>
+
+          <v-flex xs12 sm12 md12 lg12 xl12 >
+            <v-container fill-height grid-list-md>
+              <v-layout column wrap xs12 sm12 md12 lg12 xl12 id="revistero" >
+                <v-flex xs12 md2 right class="revistas menu">
+                  <v-navigation-drawer stateless value="true">
+                    <v-list>
+                      <v-list-tile>
+                        <v-list-tile-title>Números anteriores</v-list-tile-title>
+                      </v-list-tile>
+                      <v-list-group v-for="year in years" :key="year" sub-group no-action :value="year===currentYear">
+                        <v-list-tile slot="activator">
+                          <v-list-tile-title>{{year}}</v-list-tile-title>
+                        </v-list-tile>
+                        <v-list-tile v-for="month in Object.keys(items[year]) " :key="month" v-on:click="switchMonth(month, year)">
+                          <v-list-tile-content>
+                            <v-list-tile-title v-text="month"></v-list-tile-title>
+                          </v-list-tile-content>
+                        </v-list-tile>
+                      </v-list-group>
+                    </v-list>
+                  </v-navigation-drawer>
+                </v-flex>
+
+                <v-flex xs12 md8 class="revistas"  align-content-space-around >
+                  <div class="headline " >{{viewMonth}} de {{viewYear}}</div>
+                  <v-layout align-content-center wrap row >
+                    <v-flex v-for="issue in  this.viewIssues" :key="issue" xs12 md5>
+                      <v-card color="pink lighten-5" align-content-center class="white--text">
+                        <v-card-title primary-title>
+                          <div class="headline titulo">Número {{issue.slice(3, 7).replace(/^0+/, '')}}, {{issue.slice(8, 10).replace(/^0+/, '')}} de {{viewMonth}} de {{viewYear}}</div>
+                        </v-card-title>
+                        <v-card-media :src="`${base}/${issue}.png`" height="400px" contain></v-card-media>
+                        <v-card-actions>
+                          <v-btn flat  color="pink darken-3" :href="`${base}/${issue}.pdf`">Descargar</v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-flex>
+                  </v-layout>
+                </v-flex>
+
+              </v-layout>
+            </v-container>
+          </v-flex>
+        </v-layout>
+      </section>
+
+
+      <v-footer class="pink darken-3">
+        <v-layout row wrap>
+          <v-flex xs6>
+            <div class="white--text  ml-1">
+              Director:Juan José Montes
+            </div>
+          </v-flex>
+
+          <v-flex xs6>
+            <div class="white--text align-content-end">
+              Correo Electrónico
+              <a class="white--text" href="mailto:iglenca@archimeridabadajoz.org">Iglenca@archimeridabadajoz.org</a>
+            </div>
+          </v-flex>
+        </v-layout>
+      </v-footer>
+    </v-content>
+  </v-app>
+
+
+
+</template>
+
+<script>
+  import Vue from 'vue'
+  import Vuetify from 'vuetify'
+  import 'vuetify/dist/vuetify.min.css'
+  import 'material-design-icons-iconfont/dist/material-design-icons.css'
+  import 'babel-polyfill'
+  import colors from 'vuetify/es5/util/colors'
+  import escudo from '~/assets/escudo.png'
+  Vue.use(Vuetify, {
+    theme: {
+      primary: colors.pink.darken3, // #E53935
+      secondary: colors.lime.base, // #FFCDD2
+      accent: colors.indigo.base // #3F51B5
+    }
+  })
+
+  import items from '../assets/ic.json'
+  export default {
+    components: {},
+    data: () => ({
+      selection: [],
+      items: items,
+      escudo: escudo,
+      base: 'http://www.meridabadajoz.net/iglesiaencamino',
+      viewYear: null,
+      viewMonth: null,
+      viewIssues: []
+    }),
+    mounted: function () {
+      this.viewYear = this.currentYear
+      this.viewMonth = this.currentYearMonth
+      this.viewIssues= this.items[this.currentYear][this.currentYearMonth]
+    },
+    methods: {
+      switchMonth: function (month, year) {
+        this.viewYear = year
+        this.viewMonth = month
+        this.viewIssues = this.items[year][month]
+      }
+    },
+
+    computed: {
+      currentImage: function () {
+        return `${this.base}/${this.currentIssue}.png`
+      },
+      currentPDF: function () {
+        return `${this.base}/${this.currentIssue}.pdf`
+      },
+      years: function () {
+        return Object.keys(this.items).reverse()
+      },
+      currentYear: function () {
+        const years = Object.keys(this.items)
+        return years.pop()
+      },
+      currentYearMonth: function () {
+        const months = Object.keys(this.items[this.currentYear])
+        //this.computedMonth=months[0]
+        return months[0]
+      },
+      currentIssue: function () {
+        const issues = this.items[this.currentYear][this.currentYearMonth]
+
+        return issues[0]
+      },
+      numberCurrentIssue: function () {
+        return this.currentIssue.slice(3, 7)
+      },
+      currentDay: function () {
+        const datePart = this.currentIssue.slice(8, 10)
+        return datePart
+      }
+    }
+  }
+
+</script>
+
+<style>
+  #revistero{
+    max-height: 150vh;
+  }
+
+ .titulo{
+   color:#AD1457;
+ }
+  .container {
+    /* min-height: 100vh; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .title {
+    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+    /* 1 */
+    display: block;
+    font-weight: 300;
+    font-size: 100px;
+    color: #35495e;
+    letter-spacing: 1px;
+  }
+
+  .subtitle {
+    font-weight: 300;
+    font-size: 42px;
+    color: #526488;
+    word-spacing: 5px;
+    padding-bottom: 15px;
+  }
+
+  .links {
+    padding-top: 15px;
+  }
+
+</style>

@@ -8,88 +8,91 @@
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-content>
-
-      <v-layout column wrap class="mt-5 pt-3" align-center>
-        <v-flex xs12 sm4 pt8 class="my-3">
-          <div class="text-xs-center">
-            <span class="headline">
-              Diciembre de 1996 - {{currentYearMonth}} de {{currentYear}}
-            </span>
-          </div>
-        </v-flex>
+      <v-layout v-if="loading" column wrap py-5 my-5 align-center>
+        <circle8 size="100px"></circle8>
       </v-layout>
-
-      <section>
-        <v-parallax :src="escudo" height="700">
-          <a :href="currentPDF">
-            <v-layout column align-center justify-center class="white--text">
-              <div class="subheading mb-3 text-xs-center"></div>
-              <img class="my-4 py-4" :src="currentImage" height="768" alt="Última revista">
-            </v-layout>
-          </a>
-        </v-parallax>
-      </section>
-
-      <section>
-        <v-layout row wrap class="pt-2" align-center>
-          <v-flex xs12>
+      <span v-if="!loading">
+        <v-layout column wrap class="mt-5 pt-3" align-center>
+          <v-flex xs12 sm4 pt8 class="my-3">
             <div class="text-xs-center">
-              <span class="subheading">
-                Última revista:
+              <span class="headline">
+                Diciembre de 1996 - {{currentYearMonth}} de {{currentYear}}
               </span>
-              <a :href="currentPDF">
-                <h2 class="headline">Número {{numberCurrentIssue}}, {{currentDay}} de {{currentYearMonth}} de {{currentYear}}</h2>
-              </a>
             </div>
           </v-flex>
-
-          <v-flex xs12 sm12 md12 lg12 xl12>
-            <v-container fill-height grid-list-md>
-              <v-layout row xs12 sm12 md12 lg12 xl12 id="revistero">
-                <v-flex xs12 md2 right class="revistas menu">
-                  <v-navigation-drawer stateless value="true">
-                    <v-list>
-                      <v-list-tile>
-                        <v-list-tile-title>Números anteriores</v-list-tile-title>
-                      </v-list-tile>
-                      <v-list-group v-for="year in years" :key="year" sub-group no-action :value="year===currentYear">
-                        <v-list-tile slot="activator">
-                          <v-list-tile-title>{{year}}</v-list-tile-title>
-                        </v-list-tile>
-                        <v-list-tile v-for="month in Object.keys(items[year]) " :key="month" v-on:click="switchMonth(month, year)">
-                          <v-list-tile-content>
-                            <v-list-tile-title v-text="month"></v-list-tile-title>
-                          </v-list-tile-content>
-                        </v-list-tile>
-                      </v-list-group>
-                    </v-list>
-                  </v-navigation-drawer>
-                </v-flex>
-
-                <v-flex xs12 md10 class="revistas" align-content-space-around>
-                  <div class="headline ">{{viewMonth}} de {{viewYear}}</div>
-                  <v-layout align-content-center wrap row>
-                    <v-flex v-for="issue in  this.viewIssues" :key="issue" xs12 md4>
-                      <v-card color="pink lighten-5" align-content-center class="white--text">
-                        <v-card-title primary-title>
-                          <div class="headline titulo">Número {{issue.slice(3, 7).replace(/^0+/, '')}}, {{issue.slice(8, 10).replace(/^0+/, '')}} de {{viewMonth}}
-                            de {{viewYear}}</div>
-                        </v-card-title>
-                        <v-card-media :src="`${base}/${issue}.png`" height="400px" contain></v-card-media>
-                        <v-card-actions>
-                          <v-btn flat color="pink darken-3" :href="`${base}/${issue}.pdf`">Descargar</v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-flex>
-                  </v-layout>
-                </v-flex>
-
-              </v-layout>
-            </v-container>
-          </v-flex>
         </v-layout>
-      </section>
 
+        <section>
+          <v-parallax :src="escudo" height="700">
+            <a :href="currentPDF">
+              <v-layout column align-center justify-center class="white--text">
+                <div class="subheading mb-3 text-xs-center"></div>
+                <img class="my-4 py-4" :src="currentImage" height="768" alt="Última revista">
+              </v-layout>
+            </a>
+          </v-parallax>
+        </section>
+
+        <section>
+          <v-layout row wrap class="pt-2" align-center>
+            <v-flex xs12>
+              <div class="text-xs-center">
+                <span class="subheading">
+                  Última revista:
+                </span>
+                <a :href="currentPDF">
+                  <h2 class="headline">Número {{numberCurrentIssue}}, {{currentDay}} de {{currentYearMonth}} de {{currentYear}}</h2>
+                </a>
+              </div>
+            </v-flex>
+
+            <v-flex xs12 sm12 md12 lg12 xl12>
+              <v-container fill-height grid-list-md>
+                <v-layout row xs12 sm12 md12 lg12 xl12 id="revistero">
+                  <v-flex xs12 md2 right class="revistas menu">
+                    <v-navigation-drawer stateless value="true">
+                      <v-list>
+                        <v-list-tile>
+                          <v-list-tile-title>Números anteriores</v-list-tile-title>
+                        </v-list-tile>
+                        <v-list-group v-for="year in years" :key="year" sub-group no-action :value="year===currentYear">
+                          <v-list-tile slot="activator">
+                            <v-list-tile-title>{{year}}</v-list-tile-title>
+                          </v-list-tile>
+                          <v-list-tile v-for="month in Object.keys(items[year]) " :key="month" v-on:click="switchMonth(month, year)">
+                            <v-list-tile-content>
+                              <v-list-tile-title v-text="month"></v-list-tile-title>
+                            </v-list-tile-content>
+                          </v-list-tile>
+                        </v-list-group>
+                      </v-list>
+                    </v-navigation-drawer>
+                  </v-flex>
+
+                  <v-flex xs12 md10 class="revistas" align-content-space-around>
+                    <div class="headline ">{{viewMonth}} de {{viewYear}}</div>
+                    <v-layout align-content-center wrap row>
+                      <v-flex v-for="issue in  this.viewIssues" :key="issue" xs12 md4>
+                        <v-card color="pink lighten-5" align-content-center class="white--text">
+                          <v-card-title primary-title>
+                            <div class="headline titulo">Número {{issue.slice(3, 7).replace(/^0+/, '')}}, {{issue.slice(8, 10).replace(/^0+/, '')}} de
+                              {{viewMonth}} de {{viewYear}}</div>
+                          </v-card-title>
+                          <v-card-media :src="`${base}/${issue}.png`" height="400px" contain></v-card-media>
+                          <v-card-actions>
+                            <v-btn flat color="pink darken-3" :href="`${base}/${issue}.pdf`">Descargar</v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </v-flex>
+                    </v-layout>
+                  </v-flex>
+
+                </v-layout>
+              </v-container>
+            </v-flex>
+          </v-layout>
+        </section>
+      </span>
 
       <v-footer class="pink darken-3">
         <v-layout row wrap>
@@ -117,11 +120,11 @@
 <script>
 import Vue from 'vue'
 import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'babel-polyfill'
 import colors from 'vuetify/es5/util/colors'
 import escudo from '~/assets/escudo.png'
+import Circle8 from '~/components/Circle8'
+import axios from 'axios'
 Vue.use(Vuetify, {
   theme: {
     primary: colors.pink.darken3, // #E53935
@@ -130,22 +133,39 @@ Vue.use(Vuetify, {
   }
 })
 
-import items from '../assets/ic.json'
 export default {
-  components: {},
+  components: {
+    Circle8
+  },
   data: () => ({
     selection: [],
-    items: items,
+    items: {},
     escudo: escudo,
     base: 'http://www.meridabadajoz.net/iglesiaencamino',
     viewYear: null,
     viewMonth: null,
-    viewIssues: []
+    viewIssues: [],
+    loading: true
   }),
-  mounted: function() {
-    this.viewYear = this.currentYear
-    this.viewMonth = this.currentYearMonth
-    this.viewIssues = this.items[this.currentYear][this.currentYearMonth]
+
+  created: function() {
+    this.loading = true
+    axios
+      .get(`${this.base}/ic.json`)
+      .then(
+        function(response) {
+          this.items = response.data
+          this.viewYear = this.currentYear
+          this.viewMonth = this.currentYearMonth
+          this.viewIssues = this.items[this.currentYear][this.currentYearMonth]
+          this.loading = false
+        }.bind(this)
+      )
+      .catch(
+        function() {
+          this.loading = false
+        }.bind(this)
+      )
   },
   methods: {
     switchMonth: function(month, year) {
@@ -170,14 +190,17 @@ export default {
       return years.pop()
     },
     currentYearMonth: function() {
-      const months = Object.keys(this.items[this.currentYear])
-      //this.computedMonth=months[0]
-      return months[0]
+      if (Object.keys(this.items).length) {
+        const months = Object.keys(this.items[this.currentYear])
+        //this.computedMonth=months[0]
+        return months[0]
+      } else return null
     },
     currentIssue: function() {
-      const issues = this.items[this.currentYear][this.currentYearMonth]
-
-      return issues[0]
+      if (Object.keys(this.items).length) {
+        const issues = this.items[this.currentYear][this.currentYearMonth]
+        return issues[0]
+      } else return null
     },
     numberCurrentIssue: function() {
       return this.currentIssue.slice(3, 7)

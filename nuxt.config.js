@@ -37,3 +37,11 @@ module.exports = {
     }
   }
 }
+
+module.exports = {
+  css: [
+    'vuetify/dist/vuetify.min.css',
+    'material-design-icons-iconfont/dist/material-design-icons.css'
+
+  ]
+}

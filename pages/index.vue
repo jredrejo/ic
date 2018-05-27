@@ -43,9 +43,9 @@
             </div>
           </v-flex>
 
-          <v-flex xs12 sm12 md12 lg12 xl12 >
+          <v-flex xs12 sm12 md12 lg12 xl12>
             <v-container fill-height grid-list-md>
-              <v-layout column wrap xs12 sm12 md12 lg12 xl12 id="revistero" >
+              <v-layout row xs12 sm12 md12 lg12 xl12 id="revistero">
                 <v-flex xs12 md2 right class="revistas menu">
                   <v-navigation-drawer stateless value="true">
                     <v-list>
@@ -66,17 +66,18 @@
                   </v-navigation-drawer>
                 </v-flex>
 
-                <v-flex xs12 md8 class="revistas"  align-content-space-around >
-                  <div class="headline " >{{viewMonth}} de {{viewYear}}</div>
-                  <v-layout align-content-center wrap row >
-                    <v-flex v-for="issue in  this.viewIssues" :key="issue" xs12 md5>
+                <v-flex xs12 md10 class="revistas" align-content-space-around>
+                  <div class="headline ">{{viewMonth}} de {{viewYear}}</div>
+                  <v-layout align-content-center wrap row>
+                    <v-flex v-for="issue in  this.viewIssues" :key="issue" xs12 md4>
                       <v-card color="pink lighten-5" align-content-center class="white--text">
                         <v-card-title primary-title>
-                          <div class="headline titulo">Número {{issue.slice(3, 7).replace(/^0+/, '')}}, {{issue.slice(8, 10).replace(/^0+/, '')}} de {{viewMonth}} de {{viewYear}}</div>
+                          <div class="headline titulo">Número {{issue.slice(3, 7).replace(/^0+/, '')}}, {{issue.slice(8, 10).replace(/^0+/, '')}} de {{viewMonth}}
+                            de {{viewYear}}</div>
                         </v-card-title>
                         <v-card-media :src="`${base}/${issue}.png`" height="400px" contain></v-card-media>
                         <v-card-actions>
-                          <v-btn flat  color="pink darken-3" :href="`${base}/${issue}.pdf`">Descargar</v-btn>
+                          <v-btn flat color="pink darken-3" :href="`${base}/${issue}.pdf`">Descargar</v-btn>
                         </v-card-actions>
                       </v-card>
                     </v-flex>
@@ -114,119 +115,118 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  import Vuetify from 'vuetify'
-  import 'vuetify/dist/vuetify.min.css'
-  import 'material-design-icons-iconfont/dist/material-design-icons.css'
-  import 'babel-polyfill'
-  import colors from 'vuetify/es5/util/colors'
-  import escudo from '~/assets/escudo.png'
-  Vue.use(Vuetify, {
-    theme: {
-      primary: colors.pink.darken3, // #E53935
-      secondary: colors.lime.base, // #FFCDD2
-      accent: colors.indigo.base // #3F51B5
+import Vue from 'vue'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import 'babel-polyfill'
+import colors from 'vuetify/es5/util/colors'
+import escudo from '~/assets/escudo.png'
+Vue.use(Vuetify, {
+  theme: {
+    primary: colors.pink.darken3, // #E53935
+    secondary: colors.lime.base, // #FFCDD2
+    accent: colors.indigo.base // #3F51B5
+  }
+})
+
+import items from '../assets/ic.json'
+export default {
+  components: {},
+  data: () => ({
+    selection: [],
+    items: items,
+    escudo: escudo,
+    base: 'http://www.meridabadajoz.net/iglesiaencamino',
+    viewYear: null,
+    viewMonth: null,
+    viewIssues: []
+  }),
+  mounted: function() {
+    this.viewYear = this.currentYear
+    this.viewMonth = this.currentYearMonth
+    this.viewIssues = this.items[this.currentYear][this.currentYearMonth]
+  },
+  methods: {
+    switchMonth: function(month, year) {
+      this.viewYear = year
+      this.viewMonth = month
+      this.viewIssues = this.items[year][month]
     }
-  })
+  },
 
-  import items from '../assets/ic.json'
-  export default {
-    components: {},
-    data: () => ({
-      selection: [],
-      items: items,
-      escudo: escudo,
-      base: 'http://www.meridabadajoz.net/iglesiaencamino',
-      viewYear: null,
-      viewMonth: null,
-      viewIssues: []
-    }),
-    mounted: function () {
-      this.viewYear = this.currentYear
-      this.viewMonth = this.currentYearMonth
-      this.viewIssues= this.items[this.currentYear][this.currentYearMonth]
+  computed: {
+    currentImage: function() {
+      return `${this.base}/${this.currentIssue}.png`
     },
-    methods: {
-      switchMonth: function (month, year) {
-        this.viewYear = year
-        this.viewMonth = month
-        this.viewIssues = this.items[year][month]
-      }
+    currentPDF: function() {
+      return `${this.base}/${this.currentIssue}.pdf`
     },
+    years: function() {
+      return Object.keys(this.items).reverse()
+    },
+    currentYear: function() {
+      const years = Object.keys(this.items)
+      return years.pop()
+    },
+    currentYearMonth: function() {
+      const months = Object.keys(this.items[this.currentYear])
+      //this.computedMonth=months[0]
+      return months[0]
+    },
+    currentIssue: function() {
+      const issues = this.items[this.currentYear][this.currentYearMonth]
 
-    computed: {
-      currentImage: function () {
-        return `${this.base}/${this.currentIssue}.png`
-      },
-      currentPDF: function () {
-        return `${this.base}/${this.currentIssue}.pdf`
-      },
-      years: function () {
-        return Object.keys(this.items).reverse()
-      },
-      currentYear: function () {
-        const years = Object.keys(this.items)
-        return years.pop()
-      },
-      currentYearMonth: function () {
-        const months = Object.keys(this.items[this.currentYear])
-        //this.computedMonth=months[0]
-        return months[0]
-      },
-      currentIssue: function () {
-        const issues = this.items[this.currentYear][this.currentYearMonth]
-
-        return issues[0]
-      },
-      numberCurrentIssue: function () {
-        return this.currentIssue.slice(3, 7)
-      },
-      currentDay: function () {
-        const datePart = this.currentIssue.slice(8, 10)
-        return datePart
-      }
+      return issues[0]
+    },
+    numberCurrentIssue: function() {
+      return this.currentIssue.slice(3, 7)
+    },
+    currentDay: function() {
+      const datePart = this.currentIssue.slice(8, 10)
+      return datePart
     }
   }
-
+}
 </script>
 
 <style>
-  #revistero{
-    max-height: 150vh;
-  }
+#revistero {
+  min-height: 1150px;
+}
 
- .titulo{
-   color:#AD1457;
- }
-  .container {
-    /* min-height: 100vh; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
+.titulo {
+  color: #ad1457;
+}
 
-  .title {
-    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+.container {
+  /* min-height: 100vh; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.title {
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
     Arial, sans-serif;
-    /* 1 */
-    display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
-  }
+  /* 1 */
+  display: block;
+  font-weight: 300;
+  font-size: 100px;
+  color: #35495e;
+  letter-spacing: 1px;
+}
 
-  .subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
-  }
+.subtitle {
+  font-weight: 300;
+  font-size: 42px;
+  color: #526488;
+  word-spacing: 5px;
+  padding-bottom: 15px;
+}
 
-  .links {
-    padding-top: 15px;
-  }
-
+.links {
+  padding-top: 15px;
+}
 </style>

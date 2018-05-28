@@ -28,9 +28,6 @@
     "node-sass": "^4.9.0",
     "prettier": "1.12.0",
     "sass-loader": "^7.0.1"
-  },
-  "resolutions": {
-    "@vue/component-compiler-utils/prettier": "1.12.1"
   }
 
 }

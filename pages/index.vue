@@ -148,7 +148,7 @@ export default {
     loading: true
   }),
 
-  created: function() {
+  mounted: function() {
     this.fetchItems()
   },
   methods: {

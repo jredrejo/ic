@@ -56,10 +56,8 @@ module.exports = {
         })
       }
     }
-  }
-}
-
-module.exports = {
+  },
+  mode: 'spa',
   modules: [
     '@nuxtjs/axios'
   ],

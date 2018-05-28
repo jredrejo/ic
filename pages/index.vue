@@ -8,10 +8,10 @@
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-content>
-      <v-layout v-if="loading" column wrap py-5 my-5 align-center>
+      <v-layout v-show="loading" column wrap py-5 my-5 align-center>
         <circle8 size="100px"></circle8>
       </v-layout>
-      <span v-if="!loading">
+      <span v-show="!loading">
         <v-layout column wrap class="mt-5 pt-3" align-center>
           <v-flex xs12 sm4 pt8 class="my-3">
             <div class="text-xs-center">
@@ -203,11 +203,14 @@ export default {
       } else return null
     },
     numberCurrentIssue: function() {
-      return this.currentIssue.slice(3, 7)
+      if (this.currentIssue) return this.currentIssue.slice(3, 7)
+      else return null
     },
     currentDay: function() {
-      const datePart = this.currentIssue.slice(8, 10)
-      return datePart
+      if (this.currentIssue) {
+        const datePart = this.currentIssue.slice(8, 10)
+        return datePart
+      } else return null
     }
   }
 }

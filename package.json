@@ -13,7 +13,7 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "@nuxtjs/axios": "^5.3.1",
     "babel-polyfill": "^6.26.0",
     "material-design-icons-iconfont": "^3.0.3",
     "nuxt": "^1.0.0",

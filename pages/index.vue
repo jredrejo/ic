@@ -149,25 +149,16 @@ export default {
   }),
 
   created: function() {
-    this.loading = true
-    axios
-      .get(`${this.base}/ic.json`)
-      .then(
-        function(response) {
-          this.items = response.data
-          this.viewYear = this.currentYear
-          this.viewMonth = this.currentYearMonth
-          this.viewIssues = this.items[this.currentYear][this.currentYearMonth]
-          this.loading = false
-        }.bind(this)
-      )
-      .catch(
-        function() {
-          this.loading = false
-        }.bind(this)
-      )
+    this.fetchItems()
   },
   methods: {
+    async fetchItems() {
+      this.items = await this.$axios.$get(`${this.base}/ic.json`)
+      this.viewYear = this.currentYear
+      this.viewMonth = this.currentYearMonth
+      this.viewIssues = this.items[this.currentYear][this.currentYearMonth]
+      this.loading = false
+    },
     switchMonth: function(month, year) {
       this.viewYear = year
       this.viewMonth = month

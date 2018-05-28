@@ -70,5 +70,8 @@ module.exports = {
     'vuetify/dist/vuetify.min.css',
     'material-design-icons-iconfont/dist/material-design-icons.css'
 
-  ]
+  ],
+  // router: {
+  //   base: '/datos/web/arzobispado/ic/dist/'
+  // }
 }

@@ -70,7 +70,7 @@
 
                   <v-flex xs12 md10 class="revistas" align-content-space-around>
                     <div class="headline">{{viewMonth}} de {{viewYear}}</div>
-                    <v-layout align-content-center wrap row>
+                    <v-layout wrap row>
                       <v-flex v-for="issue in  this.viewIssues" :key="issue" xs12 md4>
                         <v-card color="secondary" align-content-center>
                           <v-card-title color="primary" primary-title>

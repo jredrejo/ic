@@ -1,11 +1,8 @@
 <template>
   <v-app light>
-    <v-toolbar dark color="primary" fixed>
+    <v-toolbar dark color="primary" dense >
       <img src="~/static/logo.png" alt="Logo de la archidiócesis">
-      <v-spacer></v-spacer>
-      <v-toolbar-title>Iglesia en Camino
-        <v-spacer></v-spacer>Semanario de la Archidiócesis de Mérida-Badajoz (España) </v-toolbar-title>
-      <v-spacer></v-spacer>
+      <v-toolbar-title id="encabezado">Iglesia en Camino:Semanario de la Archidiócesis de Mérida-Badajoz (España) </v-toolbar-title>
     </v-toolbar>
     <v-content>
       <v-layout v-show="loading" column wrap py-5 my-5 align-center>
@@ -70,17 +67,17 @@
                   </v-flex>
 
                   <v-flex xs12 md10 class="revistas" align-content-space-around>
-                    <div class="headline ">{{viewMonth}} de {{viewYear}}</div>
+                    <div class="headline">{{viewMonth}} de {{viewYear}}</div>
                     <v-layout align-content-center wrap row>
                       <v-flex v-for="issue in  this.viewIssues" :key="issue" xs12 md4>
-                        <v-card color="pink lighten-5" align-content-center class="white--text">
-                          <v-card-title primary-title>
-                            <div class="headline titulo">Número {{issue.slice(3, 7).replace(/^0+/, '')}}, {{issue.slice(8, 10).replace(/^0+/, '')}} de
+                        <v-card color="secondary" align-content-center>
+                          <v-card-title color="primary" primary-title>
+                            <div class="headline  primary--text">Número {{issue.slice(3, 7).replace(/^0+/, '')}}, {{issue.slice(8, 10).replace(/^0+/, '')}} de
                               {{viewMonth}} de {{viewYear}}</div>
                           </v-card-title>
                           <v-card-media :src="`${base}/${issue}.png`" height="400px" contain></v-card-media>
                           <v-card-actions>
-                            <v-btn flat color="pink darken-3" :href="`${base}/${issue}.pdf`">Descargar</v-btn>
+                            <v-btn flat color="primary" :href="`${base}/${issue}.pdf`">Descargar</v-btn>
                           </v-card-actions>
                         </v-card>
                       </v-flex>
@@ -94,7 +91,7 @@
         </section>
       </span>
 
-      <v-footer class="pink darken-3">
+      <v-footer class="primary">
         <v-layout row wrap>
           <v-flex xs6>
             <div class="white--text  ml-1">
@@ -105,7 +102,7 @@
           <v-flex xs6>
             <div class="white--text align-content-end">
               Correo Electrónico
-              <a class="white--text" href="mailto:iglenca@archimeridabadajoz.org">Iglenca@archimeridabadajoz.org</a>
+              <a class="white--text" href="mailto:iglenca@meridabadajoz.es">iglenca@meridabadajoz.es</a>
             </div>
           </v-flex>
         </v-layout>
@@ -127,9 +124,9 @@ import Circle8 from '~/components/Circle8'
 import axios from 'axios'
 Vue.use(Vuetify, {
   theme: {
-    primary: colors.pink.darken3, // #E53935
-    secondary: colors.lime.base, // #FFCDD2
-    accent: colors.indigo.base // #3F51B5
+    primary: colors.pink.darken3,
+    secondary: colors.pink.lighten5,
+    accent: colors.indigo.base
   }
 })
 
@@ -208,12 +205,15 @@ export default {
 </script>
 
 <style>
-#revistero {
-  min-height: 1150px;
+#encabezado {
+  width:100%;
+  text-align: center;
+  margin-left: -160px;
+
 }
 
-.titulo {
-  color: #ad1457;
+#revistero {
+  min-height: 1150px;
 }
 
 .container {

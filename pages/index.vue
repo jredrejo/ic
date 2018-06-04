@@ -126,7 +126,6 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import 'babel-polyfill'
 import colors from 'vuetify/es5/util/colors'
-import escudo from '~/assets/escudo.png'
 import Circle8 from '~/components/Circle8'
 import axios from 'axios'
 Vue.use(Vuetify, {})
@@ -138,7 +137,6 @@ export default {
   data: () => ({
     selection: [],
     items: {},
-    escudo: escudo,
     base: 'http://www.meridabadajoz.net/iglesiaencamino',
     viewYear: null,
     viewMonth: null,

@@ -47,7 +47,7 @@
                 </a>
               </div>
             </v-flex>
-
+            <v-flex xs12 style="min-height:25px"> </v-flex>
             <v-flex xs12 sm12 md12 lg12 xl12>
               <v-container fill-height grid-list-md>
                 <v-layout row xs12 sm12 md12 lg12 xl12 id="revistero">

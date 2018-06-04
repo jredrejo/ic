@@ -47,7 +47,7 @@
                 </a>
               </div>
             </v-flex>
-
+            <v-flex xs12 style="min-height:25px"> </v-flex>
             <v-flex xs12 sm12 md12 lg12 xl12>
               <v-container fill-height grid-list-md>
                 <v-layout row xs12 sm12 md12 lg12 xl12 id="revistero">
@@ -72,7 +72,8 @@
                   </v-flex>
 
                   <v-flex xs12 md10 class="revistas" align-content-space-around>
-                    <div class="headline">{{viewMonth}} de {{viewYear}}</div>
+
+
                     <v-layout wrap row>
                       <v-flex v-for="issue in  this.viewIssues" :key="issue" xs12 md4>
                         <v-card color="secondary" align-content-center>

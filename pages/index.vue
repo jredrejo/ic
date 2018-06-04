@@ -1,8 +1,13 @@
 <template>
   <v-app light>
-    <v-toolbar dark color="primary" >
+    <v-toolbar dark color="primary">
       <img src="~/static/logo.png" alt="Logo de la archidiócesis">
-      <v-toolbar-title id="encabezado">Iglesia en Camino:Semanario de la Archidiócesis de Mérida-Badajoz (España) </v-toolbar-title>
+      <v-toolbar-title id="encabezado">
+        <div>
+          <span class="titulo">I</span>glesia en
+          <span class="titulo">C</span>amino</div>
+        <div>Semanario de la Archidiócesis de Mérida-Badajoz (España)</div>
+      </v-toolbar-title>
     </v-toolbar>
     <v-content>
       <v-layout v-show="loading" column wrap py-5 my-5 align-center>
@@ -20,14 +25,14 @@
         </v-layout>
 
         <section>
-          <v-parallax :src="escudo" height="700">
-            <a :href="currentPDF">
-              <v-layout column align-center justify-center class="white--text">
-                <div class="subheading mb-3 text-xs-center"></div>
-                <img class="my-4 py-4" id="revista" :src="currentImage" height="768" alt="Última revista">
-              </v-layout>
-            </a>
-          </v-parallax>
+
+          <a :href="currentPDF">
+            <v-layout column align-center justify-center class="white--text">
+              <div class="subheading mb-3 text-xs-center"></div>
+              <img id="revista" class="my-4 py-4" :src="currentImage" height="768" alt="Última revista">
+            </v-layout>
+          </a>
+
         </section>
 
         <section>
@@ -42,6 +47,7 @@
                 </a>
               </div>
             </v-flex>
+
             <v-flex xs12 sm12 md12 lg12 xl12>
               <v-container fill-height grid-list-md>
                 <v-layout row xs12 sm12 md12 lg12 xl12 id="revistero">
@@ -66,9 +72,8 @@
                   </v-flex>
 
                   <v-flex xs12 md10 class="revistas" align-content-space-around>
-
                     <div class="headline">{{viewMonth}} de {{viewYear}}</div>
-                    <v-layout  wrap row >
+                    <v-layout wrap row>
                       <v-flex v-for="issue in  this.viewIssues" :key="issue" xs12 md4>
                         <v-card color="secondary" align-content-center>
                           <v-card-title color="primary" primary-title>
@@ -115,139 +120,143 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-import 'babel-polyfill'
-import colors from 'vuetify/es5/util/colors'
-import escudo from '~/assets/escudo.png'
-import Circle8 from '~/components/Circle8'
-import axios from 'axios'
-Vue.use(Vuetify, {
-  theme: {
-    primary: colors.pink.darken3,
-    secondary: colors.pink.lighten5,
-    warning: colors.grey.lighten4
-  }
-})
+  import Vue from 'vue'
+  import Vuetify from 'vuetify'
+  import 'babel-polyfill'
+  import colors from 'vuetify/es5/util/colors'
+  import escudo from '~/assets/escudo.png'
+  import Circle8 from '~/components/Circle8'
+  import axios from 'axios'
+  Vue.use(Vuetify, {
 
-export default {
-  components: {
-    Circle8
-  },
-  data: () => ({
-    selection: [],
-    items: {},
-    escudo: escudo,
-    base: 'http://www.meridabadajoz.net/iglesiaencamino',
-    viewYear: null,
-    viewMonth: null,
-    viewIssues: [],
-    loading: true
-  }),
+  })
 
-  mounted: function() {
-    this.fetchItems()
-  },
-  methods: {
-    async fetchItems() {
-      this.items = await this.$axios.$get(`${this.base}/ic.json`)
-      this.viewYear = this.currentYear
-      this.viewMonth = this.currentYearMonth
-      this.viewIssues = this.items[this.currentYear][this.currentYearMonth]
-      this.loading = false
+  export default {
+    components: {
+      Circle8
     },
-    switchMonth: function(month, year) {
-      this.viewYear = year
-      this.viewMonth = month
-      this.viewIssues = this.items[year][month]
-    }
-  },
+    data: () => ({
+      selection: [],
+      items: {},
+      escudo: escudo,
+      base: 'http://www.meridabadajoz.net/iglesiaencamino',
+      viewYear: null,
+      viewMonth: null,
+      viewIssues: [],
+      loading: true
+    }),
 
-  computed: {
-    currentImage: function() {
-      return `${this.base}/${this.currentIssue}.png`
+    mounted: function () {
+      this.fetchItems()
     },
-    currentPDF: function() {
-      return `${this.base}/${this.currentIssue}.pdf`
+    methods: {
+      async fetchItems() {
+        this.items = await this.$axios.$get(`${this.base}/ic.json`)
+        this.viewYear = this.currentYear
+        this.viewMonth = this.currentYearMonth
+        this.viewIssues = this.items[this.currentYear][this.currentYearMonth]
+        this.loading = false
+      },
+      switchMonth: function (month, year) {
+        this.viewYear = year
+        this.viewMonth = month
+        this.viewIssues = this.items[year][month]
+      }
     },
-    years: function() {
-      return Object.keys(this.items).reverse()
-    },
-    currentYear: function() {
-      const years = Object.keys(this.items)
-      return years.pop()
-    },
-    currentYearMonth: function() {
-      if (Object.keys(this.items).length) {
-        const months = Object.keys(this.items[this.currentYear])
-        //this.computedMonth=months[0]
-        return months[0]
-      } else return null
-    },
-    currentIssue: function() {
-      if (Object.keys(this.items).length) {
-        const issues = this.items[this.currentYear][this.currentYearMonth]
-        return issues[0]
-      } else return null
-    },
-    numberCurrentIssue: function() {
-      if (this.currentIssue) return this.currentIssue.slice(3, 7)
-      else return null
-    },
-    currentDay: function() {
-      if (this.currentIssue) {
-        const datePart = this.currentIssue.slice(8, 10)
-        return datePart
-      } else return null
+
+    computed: {
+      currentImage: function () {
+        return `${this.base}/${this.currentIssue}.png`
+      },
+      currentPDF: function () {
+        return `${this.base}/${this.currentIssue}.pdf`
+      },
+      years: function () {
+        return Object.keys(this.items).reverse()
+      },
+      currentYear: function () {
+        const years = Object.keys(this.items)
+        return years.pop()
+      },
+      currentYearMonth: function () {
+        if (Object.keys(this.items).length) {
+          const months = Object.keys(this.items[this.currentYear])
+          //this.computedMonth=months[0]
+          return months[0]
+        } else return null
+      },
+      currentIssue: function () {
+        if (Object.keys(this.items).length) {
+          const issues = this.items[this.currentYear][this.currentYearMonth]
+          return issues[0]
+        } else return null
+      },
+      numberCurrentIssue: function () {
+        if (this.currentIssue) return this.currentIssue.slice(3, 7)
+        else return null
+      },
+      currentDay: function () {
+        if (this.currentIssue) {
+          const datePart = this.currentIssue.slice(8, 10)
+          return datePart
+        } else return null
+      }
     }
   }
-}
+
 </script>
 
 <style>
-#encabezado {
-  width:100%;
-  text-align: center;
-  margin-left: -160px;
+  #encabezado {
+    width: 100%;
+    text-align: center;
+    margin-left: -160px;
 
-}
+  }
 
-#revistero {
-  min-height: 1150px;
-}
+  #revistero {
+    min-height: 1150px;
+  }
 
-#revista{
-box-shadow: 0 0px 30px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+  .titulo {
+    color: red;
+  }
 
-.container {
-  /* min-height: 100vh; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+  #revista {
+    -webkit-filter: drop-shadow(5px 5px 5px #222);
+    filter: drop-shadow(5px 5px 5px #222);
+    transform: rotate(-8deg);
+  }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+  .container {
+    /* min-height: 100vh; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .title {
+    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
     Arial, sans-serif;
-  /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+    /* 1 */
+    display: block;
+    font-weight: 300;
+    font-size: 100px;
+    color: #35495e;
+    letter-spacing: 1px;
+  }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
+  .subtitle {
+    font-weight: 300;
+    font-size: 42px;
+    color: #526488;
+    word-spacing: 5px;
+    padding-bottom: 15px;
+  }
 
-.links {
-  padding-top: 15px;
-}
+  .links {
+    padding-top: 15px;
+  }
+
 </style>

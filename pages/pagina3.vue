@@ -1,8 +1,13 @@
 <template>
   <v-app light>
-    <v-toolbar dark color="primary" >
+    <v-toolbar dark color="primary">
       <img src="~/static/logo.png" alt="Logo de la archidiócesis">
-      <v-toolbar-title id="encabezado">Iglesia en Camino:Semanario de la Archidiócesis de Mérida-Badajoz (España) </v-toolbar-title>
+      <v-toolbar-title id="encabezado">
+        <div>
+          <span class="titulo">I</span>glesia en
+          <span class="titulo">C</span>amino</div>
+        <div>Semanario de la Archidiócesis de Mérida-Badajoz (España)</div>
+      </v-toolbar-title>
     </v-toolbar>
     <v-content>
       <v-layout v-show="loading" column wrap py-5 my-5 align-center>
@@ -20,14 +25,14 @@
         </v-layout>
 
         <section>
-
+          <v-parallax :src="escudo" height="700">
             <a :href="currentPDF">
               <v-layout column align-center justify-center class="white--text">
                 <div class="subheading mb-3 text-xs-center"></div>
-                <img id="revista" class="my-4 py-4" :src="currentImage" height="768" alt="Última revista">
+                <img class="my-4 py-4" id="revista" :src="currentImage" height="768" alt="Última revista">
               </v-layout>
             </a>
-
+          </v-parallax>
         </section>
 
         <section>
@@ -42,7 +47,6 @@
                 </a>
               </div>
             </v-flex>
-
             <v-flex xs12 sm12 md12 lg12 xl12>
               <v-container fill-height grid-list-md>
                 <v-layout row xs12 sm12 md12 lg12 xl12 id="revistero">
@@ -67,8 +71,9 @@
                   </v-flex>
 
                   <v-flex xs12 md10 class="revistas" align-content-space-around>
+
                     <div class="headline">{{viewMonth}} de {{viewYear}}</div>
-                    <v-layout wrap row>
+                    <v-layout  wrap row >
                       <v-flex v-for="issue in  this.viewIssues" :key="issue" xs12 md4>
                         <v-card color="secondary" align-content-center>
                           <v-card-title color="primary" primary-title>
@@ -123,7 +128,11 @@ import escudo from '~/assets/escudo.png'
 import Circle8 from '~/components/Circle8'
 import axios from 'axios'
 Vue.use(Vuetify, {
-
+  theme: {
+    primary: colors.pink.darken3,
+    secondary: colors.pink.lighten5,
+    warning: colors.grey.lighten4
+  }
 })
 
 export default {
@@ -202,18 +211,22 @@ export default {
 
 <style>
 #encabezado {
-  width:100%;
+  width: 100%;
   text-align: center;
   margin-left: -160px;
-
 }
 
 #revistero {
   min-height: 1150px;
 }
 
-#revista{
-box-shadow: 0 0px 30px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+#revista {
+  -webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px #222);
+  transform: rotate(-8deg);
+}
+.titulo {
+  color: red;
 }
 .container {
   /* min-height: 100vh; */

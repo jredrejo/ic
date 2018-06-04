@@ -1,10 +1,13 @@
 <template>
   <v-app light>
-    <v-toolbar dark color="primary" >
+    <v-toolbar dark color="primary">
       <img src="~/static/logo.png" alt="Logo de la archidiócesis">
-
-      <v-toolbar-title id="encabezado">Iglesia en Camino:Semanario de la Archidiócesis de Mérida-Badajoz (España) </v-toolbar-title>
-
+      <v-toolbar-title id="encabezado">
+        <div>
+          <span class="titulo">I</span>glesia en
+          <span class="titulo">C</span>amino</div>
+        <div>Semanario de la Archidiócesis de Mérida-Badajoz (España)</div>
+      </v-toolbar-title>
     </v-toolbar>
     <v-content>
       <v-layout v-show="loading" column wrap py-5 my-5 align-center>
@@ -208,21 +211,21 @@ export default {
 
 <style>
 #encabezado {
-  width:100%;
+  width: 100%;
   text-align: center;
   margin-left: -160px;
-
 }
 #revistero {
   min-height: 1150px;
 }
 
-#revista{
-box-shadow: 0 0px 30px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+#revista {
+  -webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px #222);
+  transform: rotate(-8deg);
 }
-
 .titulo {
-  color: #3E2723;
+  color: red;
 }
 
 .container {

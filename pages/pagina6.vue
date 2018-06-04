@@ -1,6 +1,6 @@
 <template>
   <v-app light>
-    <v-toolbar dark color="primary" dense >
+    <v-toolbar dark color="primary" >
       <img src="~/static/logo.png" alt="Logo de la archidiócesis">
       <v-toolbar-title id="encabezado">Iglesia en Camino:Semanario de la Archidiócesis de Mérida-Badajoz (España) </v-toolbar-title>
     </v-toolbar>
@@ -24,7 +24,7 @@
             <a :href="currentPDF">
               <v-layout column align-center justify-center class="white--text">
                 <div class="subheading mb-3 text-xs-center"></div>
-                <img class="my-4 py-4" :src="currentImage" height="768" alt="Última revista">
+                <img class="my-4 py-4" id="revista" :src="currentImage" height="768" alt="Última revista">
               </v-layout>
             </a>
           </v-parallax>
@@ -214,6 +214,10 @@ export default {
 
 #revistero {
   min-height: 1150px;
+}
+
+#revista{
+box-shadow: 0 0px 30px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .container {

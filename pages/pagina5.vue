@@ -5,7 +5,7 @@
       <v-toolbar-title id="encabezado">
         <div>
           <span class="titulo">I</span>glesia en
-          <span class="titulo">C</span>amino</div>
+          <span class="titulo">c</span>amino</div>
         <div>Semanario de la Archidiócesis de Mérida-Badajoz (España)</div>
       </v-toolbar-title>
     </v-toolbar>

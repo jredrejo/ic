@@ -3,19 +3,12 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: 'iglesiacamino',
-    meta: [{
-        charset: 'utf-8'
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1'
-      },
-      {
-        hid: 'description',
-        name: 'description',
-        content: 'Iglesia en Camino - Semanario de la Archidiócesis de Mérida Badajoz'
-      }
+    title: 'Iglesia en Camino',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: 'Iglesia en Camino - Semanario de la Archidiócesis de Mérida Badajoz' },
+      { hid: 'keywords', name: 'keywords', content: 'Mérida, Merida, merida, Badajoz, badajoz, arzobispado,archidiócesis, archidiocesis, iglesia, camino, españa, España, noticias' }
     ],
     link: [{
         rel: 'icon',

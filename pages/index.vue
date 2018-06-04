@@ -76,7 +76,7 @@
 
                     <v-layout wrap row>
                       <v-flex v-for="issue in  this.viewIssues" :key="issue" xs12 md4>
-                        <v-card color="secondary" align-content-center>
+                        <v-card align-content-center>
                           <v-card-title color="primary" primary-title>
                             <div class="headline  primary--text">Número {{issue.slice(3, 7).replace(/^0+/, '')}}, {{issue.slice(8, 10).replace(/^0+/, '')}} de
                               {{viewMonth}} de {{viewYear}}</div>
@@ -106,9 +106,10 @@
           </v-flex>
 
           <v-flex xs6>
-            <div class="white--text align-content-end">
-              Correo Electrónico
-              <a class="white--text" href="mailto:iglenca@meridabadajoz.es">iglenca@meridabadajoz.es</a>
+            <div class="white--text align-content-end text-xs-right">
+              Correos Electrónicos:
+              <a class="white--text" href="mailto:iglenca@meridabadajoz.es">iglenca@meridabadajoz.es</a>,
+              <a class="white--text" href="mailto:iglenca@archimeridabadajoz.org">iglenca@archimeridabadajoz.org</a>
             </div>
           </v-flex>
         </v-layout>

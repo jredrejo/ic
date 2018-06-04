@@ -3,7 +3,7 @@
     <v-toolbar dark color="primary">
       <img src="~/static/logo.png" alt="Logo de la archidiócesis">
       <v-toolbar-title id="encabezado">
-        <div>
+        <div id="tituloprincipal">
           <span class="titulo">I</span>glesia en
           <span class="titulo">c</span>amino</div>
         <div>Semanario de la Archidiócesis de Mérida-Badajoz (España)</div>
@@ -227,6 +227,11 @@ export default {
 }
 .titulo {
   color: red;
+}
+#tituloprincipal {
+  text-shadow: 1px 1px 0px black;
+  font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
+  font-size: 1.4em;
 }
 .container {
   /* min-height: 100vh; */

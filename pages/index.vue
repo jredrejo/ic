@@ -3,7 +3,7 @@
     <v-toolbar dark color="primary">
       <img src="~/static/logo.png" alt="Logo de la archidiócesis">
       <v-toolbar-title id="encabezado">
-        <div>
+        <div id="tituloprincipal">
           <span class="titulo">I</span>glesia en
           <span class="titulo">c</span>amino</div>
         <div>Semanario de la Archidiócesis de Mérida-Badajoz (España)</div>
@@ -121,143 +121,142 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  import Vuetify from 'vuetify'
-  import 'babel-polyfill'
-  import colors from 'vuetify/es5/util/colors'
-  import escudo from '~/assets/escudo.png'
-  import Circle8 from '~/components/Circle8'
-  import axios from 'axios'
-  Vue.use(Vuetify, {
+import Vue from 'vue'
+import Vuetify from 'vuetify'
+import 'babel-polyfill'
+import colors from 'vuetify/es5/util/colors'
+import escudo from '~/assets/escudo.png'
+import Circle8 from '~/components/Circle8'
+import axios from 'axios'
+Vue.use(Vuetify, {})
 
-  })
+export default {
+  components: {
+    Circle8
+  },
+  data: () => ({
+    selection: [],
+    items: {},
+    escudo: escudo,
+    base: 'http://www.meridabadajoz.net/iglesiaencamino',
+    viewYear: null,
+    viewMonth: null,
+    viewIssues: [],
+    loading: true
+  }),
 
-  export default {
-    components: {
-      Circle8
+  mounted: function() {
+    this.fetchItems()
+  },
+  methods: {
+    async fetchItems() {
+      this.items = await this.$axios.$get(`${this.base}/ic.json`)
+      this.viewYear = this.currentYear
+      this.viewMonth = this.currentYearMonth
+      this.viewIssues = this.items[this.currentYear][this.currentYearMonth]
+      this.loading = false
     },
-    data: () => ({
-      selection: [],
-      items: {},
-      escudo: escudo,
-      base: 'http://www.meridabadajoz.net/iglesiaencamino',
-      viewYear: null,
-      viewMonth: null,
-      viewIssues: [],
-      loading: true
-    }),
+    switchMonth: function(month, year) {
+      this.viewYear = year
+      this.viewMonth = month
+      this.viewIssues = this.items[year][month]
+    }
+  },
 
-    mounted: function () {
-      this.fetchItems()
+  computed: {
+    currentImage: function() {
+      return `${this.base}/${this.currentIssue}.png`
     },
-    methods: {
-      async fetchItems() {
-        this.items = await this.$axios.$get(`${this.base}/ic.json`)
-        this.viewYear = this.currentYear
-        this.viewMonth = this.currentYearMonth
-        this.viewIssues = this.items[this.currentYear][this.currentYearMonth]
-        this.loading = false
-      },
-      switchMonth: function (month, year) {
-        this.viewYear = year
-        this.viewMonth = month
-        this.viewIssues = this.items[year][month]
-      }
+    currentPDF: function() {
+      return `${this.base}/${this.currentIssue}.pdf`
     },
-
-    computed: {
-      currentImage: function () {
-        return `${this.base}/${this.currentIssue}.png`
-      },
-      currentPDF: function () {
-        return `${this.base}/${this.currentIssue}.pdf`
-      },
-      years: function () {
-        return Object.keys(this.items).reverse()
-      },
-      currentYear: function () {
-        const years = Object.keys(this.items)
-        return years.pop()
-      },
-      currentYearMonth: function () {
-        if (Object.keys(this.items).length) {
-          const months = Object.keys(this.items[this.currentYear])
-          //this.computedMonth=months[0]
-          return months[0]
-        } else return null
-      },
-      currentIssue: function () {
-        if (Object.keys(this.items).length) {
-          const issues = this.items[this.currentYear][this.currentYearMonth]
-          return issues[0]
-        } else return null
-      },
-      numberCurrentIssue: function () {
-        if (this.currentIssue) return this.currentIssue.slice(3, 7)
-        else return null
-      },
-      currentDay: function () {
-        if (this.currentIssue) {
-          const datePart = this.currentIssue.slice(8, 10)
-          return datePart
-        } else return null
-      }
+    years: function() {
+      return Object.keys(this.items).reverse()
+    },
+    currentYear: function() {
+      const years = Object.keys(this.items)
+      return years.pop()
+    },
+    currentYearMonth: function() {
+      if (Object.keys(this.items).length) {
+        const months = Object.keys(this.items[this.currentYear])
+        //this.computedMonth=months[0]
+        return months[0]
+      } else return null
+    },
+    currentIssue: function() {
+      if (Object.keys(this.items).length) {
+        const issues = this.items[this.currentYear][this.currentYearMonth]
+        return issues[0]
+      } else return null
+    },
+    numberCurrentIssue: function() {
+      if (this.currentIssue) return this.currentIssue.slice(3, 7)
+      else return null
+    },
+    currentDay: function() {
+      if (this.currentIssue) {
+        const datePart = this.currentIssue.slice(8, 10)
+        return datePart
+      } else return null
     }
   }
-
+}
 </script>
 
 <style>
-  #encabezado {
-    width: 100%;
-    text-align: center;
-    margin-left: -160px;
+#encabezado {
+  width: 100%;
+  text-align: center;
+  margin-left: -160px;
+}
 
-  }
+#revistero {
+  min-height: 1150px;
+}
 
-  #revistero {
-    min-height: 1150px;
-  }
+.titulo {
+  color: red;
+}
+#tituloprincipal {
+  text-shadow: 1px 1px 0px black;
+  font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
+  font-size: 1.4em;
+}
+#revista {
+  -webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(5px 5px 5px #222);
+  transform: rotate(-8deg);
+}
 
-  .titulo {
-    color: red;
-  }
+.container {
+  /* min-height: 100vh; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
-  #revista {
-    -webkit-filter: drop-shadow(5px 5px 5px #222);
-    filter: drop-shadow(5px 5px 5px #222);
-    transform: rotate(-8deg);
-  }
-
-  .container {
-    /* min-height: 100vh; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-
-  .title {
-    font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+.title {
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
     Arial, sans-serif;
-    /* 1 */
-    display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
-  }
+  /* 1 */
+  display: block;
+  font-weight: 300;
+  font-size: 100px;
+  color: #35495e;
+  letter-spacing: 1px;
+}
 
-  .subtitle {
-    font-weight: 300;
-    font-size: 42px;
-    color: #526488;
-    word-spacing: 5px;
-    padding-bottom: 15px;
-  }
+.subtitle {
+  font-weight: 300;
+  font-size: 42px;
+  color: #526488;
+  word-spacing: 5px;
+  padding-bottom: 15px;
+}
 
-  .links {
-    padding-top: 15px;
-  }
-
+.links {
+  padding-top: 15px;
+}
 </style>

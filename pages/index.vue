@@ -137,7 +137,7 @@ export default {
   data: () => ({
     selection: [],
     items: {},
-    base: 'http://www.meridabadajoz.net/iglesiaencamino',
+    base: '//www.meridabadajoz.net/iglesiaencamino',
     viewYear: null,
     viewMonth: null,
     viewIssues: [],

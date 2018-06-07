@@ -52,7 +52,10 @@ module.exports = {
   },
   mode: 'spa',
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-58038356-3'
+    }]
   ],
   axios: {
     // proxyHeaders: false

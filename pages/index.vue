@@ -81,7 +81,7 @@
                             <div class="headline  primary--text">Número {{issue.slice(3, 7).replace(/^0+/, '')}}, {{issue.slice(8, 10).replace(/^0+/, '')}} de
                               {{viewMonth}} de {{viewYear}}</div>
                           </v-card-title>
-                          <v-card-media :src="`${base}/${issue}.png`" height="400px" contain></v-card-media>
+                          <v-img :src="`${base}/${issue}.png`" height="400px" contain></v-img>
                           <v-card-actions>
                             <v-btn flat color="primary" :href="`${base}/${issue}.pdf`">Descargar</v-btn>
                           </v-card-actions>

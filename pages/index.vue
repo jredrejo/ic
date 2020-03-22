@@ -1,11 +1,12 @@
 <template>
   <v-app light>
     <v-toolbar dark color="primary">
-      <img src="~/static/logo.png" alt="Logo de la archidiócesis">
+      <img src="~/static/logo.png" alt="Logo de la archidiócesis" />
       <v-toolbar-title id="encabezado">
         <div id="tituloprincipal">
           <span class="titulo">I</span>glesia en
-          <span class="titulo">c</span>amino</div>
+          <span class="titulo">c</span>amino
+        </div>
         <div>Semanario de la Archidiócesis de Mérida-Badajoz (España)</div>
       </v-toolbar-title>
     </v-toolbar>
@@ -15,35 +16,59 @@
       </v-layout>
       <span v-show="!loading">
         <v-layout column wrap class="mt-1 pt-1" align-center>
+          <v-alert outlined type="info" elevation="20" color="red">
+            <p>
+              Esta semana, ante las dificultades en la distribución y la
+              suspensión de las misas en la archidiócesis, no habrá revista
+              diocesana "Iglesia en camino".
+            </p>
+            <p>
+              Te invitamos a que sigas toda la actualidad de la diócesis a
+              través de la web
+              <a target="_blank" href="https://meridabadajoz.net">
+                https://meridabadajoz.net
+              </a>
+            </p>
+          </v-alert>
+        </v-layout>
+
+        <v-layout column wrap class="mt-1 pt-1" align-center>
           <v-flex xs12 sm4 pt8 class="my-3">
-            <div class="text-xs-center">
+            <div class="text-center">
               <span class="headline">
-                Diciembre de 1996 - {{currentYearMonth}} de {{currentYear}}
+                Diciembre de 1996 - {{ currentYearMonth }} de {{ currentYear }}
               </span>
             </div>
           </v-flex>
         </v-layout>
 
         <section>
-
           <a :href="currentPDF">
             <v-layout column align-center justify-center class="white--text">
-              <div class="subheading mb-3 text-xs-center"></div>
-              <img id="revista" class="my-4 py-4" :src="currentImage" height="768" alt="Última revista">
+              <div class="subheading mb-3 text-center"></div>
+              <img
+                id="revista"
+                class="my-4 py-4"
+                :src="currentImage"
+                height="768"
+                alt="Última revista"
+              />
             </v-layout>
           </a>
-
         </section>
 
         <section>
           <v-layout row wrap class="pt-2" align-center>
-            <v-flex xs12>
-              <div class="text-xs-center">
+            <v-flex xs12 align-center>
+              <div class="text-center" align-center>
                 <span class="subheading">
                   Última revista:
                 </span>
                 <a :href="currentPDF">
-                  <h2 class="headline">Número {{numberCurrentIssue}}, {{currentDay}} de {{currentYearMonth}} de {{currentYear}}</h2>
+                  <h2 class="headline">
+                    Número {{ numberCurrentIssue }}, {{ currentDay }} de
+                    {{ currentYearMonth }} de {{ currentYear }}
+                  </h2>
                 </a>
               </div>
             </v-flex>
@@ -51,45 +76,81 @@
             <v-flex xs12 sm12 md12 lg12 xl12>
               <v-container fill-height grid-list-md>
                 <v-layout row xs12 sm12 md12 lg12 xl12 id="revistero">
-                  <v-flex xs12 md2 right class="revistas menu">
-                    <v-navigation-drawer stateless value="true">
-                      <v-list>
-                        <v-list-tile>
-                          <v-list-tile-title>Números anteriores</v-list-tile-title>
-                        </v-list-tile>
-                        <v-list-group v-for="year in years" :key="year" sub-group no-action :value="year===currentYear">
-                          <v-list-tile slot="activator">
-                            <v-list-tile-title>{{year}}</v-list-tile-title>
-                          </v-list-tile>
-                          <v-list-tile v-for="month in Object.keys(items[year]) " :key="month" v-on:click="switchMonth(month, year)">
-                            <v-list-tile-content>
-                              <v-list-tile-title v-text="month"></v-list-tile-title>
-                            </v-list-tile-content>
-                          </v-list-tile>
+                  <v-flex xs12 md2 right class="revistas menu navegacion">
+                    <v-navigation-drawer
+                      stateless
+                      value="true"
+                      class="navegacion"
+                    >
+                      <v-list
+                        :dense="dense"
+                        :shaped="shaped"
+                        :sub-group="subGroup"
+                      >
+                        <v-list-item-group>
+                          <v-list-item-title>
+                            Números anteriores</v-list-item-title
+                          >
+                        </v-list-item-group>
+                        <v-list-group
+                          v-for="year in years"
+                          :key="year"
+                          sub-group
+                          no-action
+                          :value="year === currentYear"
+                        >
+                          <v-list-item slot="activator">
+                            <v-list-item-title>{{ year }}</v-list-item-title>
+                          </v-list-item>
+                          <v-list-item
+                            v-for="month in Object.keys(items[year])"
+                            :key="month"
+                            v-on:click="switchMonth(month, year)"
+                          >
+                            <v-list-item-content>
+                              <v-list-item-title
+                                v-text="month"
+                              ></v-list-item-title>
+                            </v-list-item-content>
+                          </v-list-item>
                         </v-list-group>
                       </v-list>
                     </v-navigation-drawer>
                   </v-flex>
 
                   <v-flex xs12 md10 class="revistas" align-content-space-around>
-
-
                     <v-layout wrap row>
-                      <v-flex v-for="issue in  this.viewIssues" :key="issue" xs12 md4>
+                      <v-flex
+                        v-for="issue in this.viewIssues"
+                        :key="issue"
+                        xs12
+                        md4
+                      >
                         <v-card align-content-center>
                           <v-card-title color="primary" primary-title>
-                            <div class="headline  primary--text">Número {{issue.slice(3, 7).replace(/^0+/, '')}}, {{issue.slice(8, 10).replace(/^0+/, '')}} de
-                              {{viewMonth}} de {{viewYear}}</div>
+                            <div class="headline  primary--text">
+                              Número {{ issue.slice(3, 7).replace(/^0+/, '') }},
+                              {{ issue.slice(8, 10).replace(/^0+/, '') }} de
+                              {{ viewMonth }} de {{ viewYear }}
+                            </div>
                           </v-card-title>
-                          <v-img :src="`${base}/${issue}.png`" height="400px" contain></v-img>
+                          <v-img
+                            :src="`${base}/${issue}.png`"
+                            height="400px"
+                            contain
+                          ></v-img>
                           <v-card-actions>
-                            <v-btn flat color="primary" :href="`${base}/${issue}.pdf`">Descargar</v-btn>
+                            <v-btn
+                              text
+                              color="primary"
+                              :href="`${base}/${issue}.pdf`"
+                              >Descargar</v-btn
+                            >
                           </v-card-actions>
                         </v-card>
                       </v-flex>
                     </v-layout>
                   </v-flex>
-
                 </v-layout>
               </v-container>
             </v-flex>
@@ -106,19 +167,22 @@
           </v-flex>
 
           <v-flex xs6>
-            <div class="white--text align-content-end text-xs-right">
+            <div class="white--text align-content-end text-right">
               Correos Electrónicos:
-              <a class="white--text" href="mailto:iglenca@meridabadajoz.es">iglenca@meridabadajoz.es</a>,
-              <a class="white--text" href="mailto:iglenca@archimeridabadajoz.org">iglenca@archimeridabadajoz.org</a>
+              <a class="white--text" href="mailto:iglenca@meridabadajoz.es"
+                >iglenca@meridabadajoz.es</a
+              >,
+              <a
+                class="white--text"
+                href="mailto:iglenca@archimeridabadajoz.org"
+                >iglenca@archimeridabadajoz.org</a
+              >
             </div>
           </v-flex>
         </v-layout>
       </v-footer>
     </v-content>
   </v-app>
-
-
-
 </template>
 
 <script>
@@ -219,7 +283,8 @@ export default {
 }
 #tituloprincipal {
   text-shadow: 1px 1px 0px black;
-  font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond, 'Times New Roman', serif;
+  font-family: Baskerville, 'Baskerville Old Face', 'Hoefler Text', Garamond,
+    'Times New Roman', serif;
   font-size: 1.4em;
 }
 #revista {
@@ -237,8 +302,8 @@ export default {
 }
 
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-    Arial, sans-serif;
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   /* 1 */
   display: block;
   font-weight: 300;
@@ -257,5 +322,9 @@ export default {
 
 .links {
   padding-top: 15px;
+}
+.navegacion {
+  font-size: 14px;
+  text-align: left;
 }
 </style>

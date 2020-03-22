@@ -7,10 +7,21 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Iglesia en Camino - Semanario de la Archidiócesis de Mérida Badajoz' },
-      { hid: 'keywords', name: 'keywords', content: 'Mérida, Merida, merida, Badajoz, badajoz,meridabadajoz,Merida-Badajoz, arzobispado, archidiocesis, iglesia, camino, españa, España, noticias' }
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          'Iglesia en Camino - Semanario de la Archidiócesis de Mérida Badajoz'
+      },
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content:
+          'Mérida, Merida, merida, Badajoz, badajoz,meridabadajoz,Merida-Badajoz, arzobispado, archidiocesis, iglesia, camino, españa, España, noticias'
+      }
     ],
-    link: [{
+    link: [
+      {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico'
@@ -36,10 +47,7 @@ module.exports = {
     /*
      ** Run ESLint on save
      */
-    extend(config, {
-      isDev,
-      isClient
-    }) {
+    extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',
@@ -53,9 +61,13 @@ module.exports = {
   mode: 'spa',
   modules: [
     '@nuxtjs/axios',
-    ['@nuxtjs/google-analytics', {
-      id: 'UA-58038356-3'
-    }]
+    '@nuxtjs/vuetify',
+    [
+      '@nuxtjs/google-analytics',
+      {
+        id: 'UA-58038356-3'
+      }
+    ]
   ],
   axios: {
     // proxyHeaders: false
@@ -63,8 +75,7 @@ module.exports = {
   css: [
     'vuetify/dist/vuetify.min.css',
     'material-design-icons-iconfont/dist/material-design-icons.css'
-
-  ],
+  ]
   // router: {
   //   base: '/datos/web/arzobispado/ic/dist/'
   // }

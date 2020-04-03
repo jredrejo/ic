@@ -15,7 +15,7 @@
         <circle8 size="100px"></circle8>
       </v-layout>
       <span v-show="!loading">
-        <v-layout column wrap class="mt-1 pt-1" align-center>
+        <!-- <v-layout column wrap class="mt-1 pt-1" align-center>
           <v-alert outlined type="info" elevation="20" color="red">
             <p>
               Esta semana, ante las dificultades en la distribución y la
@@ -30,7 +30,7 @@
               </a>
             </p>
           </v-alert>
-        </v-layout>
+        </v-layout> -->
 
         <v-layout column wrap class="mt-1 pt-1" align-center>
           <v-flex xs12 sm4 pt8 class="my-3">

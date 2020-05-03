@@ -72,7 +72,7 @@
                 </a>
               </div>
             </v-flex>
-            <v-flex xs12 style="min-height:25px"> </v-flex>
+            <v-flex xs12 style="min-height: 25px;"> </v-flex>
             <v-flex xs12 sm12 md12 lg12 xl12>
               <v-container fill-height grid-list-md>
                 <v-layout row xs12 sm12 md12 lg12 xl12 id="revistero">
@@ -128,7 +128,7 @@
                       >
                         <v-card align-content-center>
                           <v-card-title color="primary" primary-title>
-                            <div class="headline  primary--text">
+                            <div class="headline primary--text">
                               Número {{ issue.slice(3, 7).replace(/^0+/, '') }},
                               {{ issue.slice(8, 10).replace(/^0+/, '') }} de
                               {{ viewMonth }} de {{ viewYear }}
@@ -161,7 +161,7 @@
       <v-footer class="primary">
         <v-layout row wrap>
           <v-flex xs6>
-            <div class="white--text  ml-1">
+            <div class="white--text ml-1">
               Director:Juan José Montes
             </div>
           </v-flex>
@@ -196,7 +196,7 @@ Vue.use(Vuetify, {})
 
 export default {
   components: {
-    Circle8
+    Circle8,
   },
   data: () => ({
     selection: [],
@@ -205,10 +205,10 @@ export default {
     viewYear: null,
     viewMonth: null,
     viewIssues: [],
-    loading: true
+    loading: true,
   }),
 
-  mounted: function() {
+  mounted: function () {
     this.fetchItems()
   },
   methods: {
@@ -219,51 +219,51 @@ export default {
       this.viewIssues = this.items[this.currentYear][this.currentYearMonth]
       this.loading = false
     },
-    switchMonth: function(month, year) {
+    switchMonth: function (month, year) {
       this.viewYear = year
       this.viewMonth = month
       this.viewIssues = this.items[year][month]
-    }
+    },
   },
 
   computed: {
-    currentImage: function() {
+    currentImage: function () {
       return `${this.base}/${this.currentIssue}.png`
     },
-    currentPDF: function() {
+    currentPDF: function () {
       return `${this.base}/${this.currentIssue}.pdf`
     },
-    years: function() {
+    years: function () {
       return Object.keys(this.items).reverse()
     },
-    currentYear: function() {
+    currentYear: function () {
       const years = Object.keys(this.items)
       return years.pop()
     },
-    currentYearMonth: function() {
+    currentYearMonth: function () {
       if (Object.keys(this.items).length) {
         const months = Object.keys(this.items[this.currentYear])
         //this.computedMonth=months[0]
         return months[0]
       } else return null
     },
-    currentIssue: function() {
+    currentIssue: function () {
       if (Object.keys(this.items).length) {
         const issues = this.items[this.currentYear][this.currentYearMonth]
         return issues[0]
       } else return null
     },
-    numberCurrentIssue: function() {
+    numberCurrentIssue: function () {
       if (this.currentIssue) return this.currentIssue.slice(3, 7)
       else return null
     },
-    currentDay: function() {
+    currentDay: function () {
       if (this.currentIssue) {
         const datePart = this.currentIssue.slice(8, 10)
         return datePart
       } else return null
-    }
-  }
+    },
+  },
 }
 </script>
 

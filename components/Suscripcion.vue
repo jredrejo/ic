@@ -16,26 +16,32 @@
             todas las semanas en cuanto esté publicado</span
           >
           <v-container>
-            <v-row>
-              <v-col cols="12" sm="6" md="6">
-                <v-text-field
-                  label="Nombre"
-                  hint="No es un dato necesario"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="6">
-                <v-text-field
-                  label="Apellidos"
-                  hint="No es un dato necesario"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  label="Correo electrónico*"
-                  required
-                ></v-text-field>
-              </v-col>
-            </v-row>
+            <v-form ref="form" v-model="valid" :lazy-validation="lazy">
+              <v-row>
+                <v-col cols="12" sm="6" md="6">
+                  <v-text-field
+                    label="Nombre"
+                    v-model="name"
+                    hint="No es un dato necesario"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6" md="6">
+                  <v-text-field
+                    label="Apellidos"
+                    v-model="surname"
+                    hint="No es un dato necesario"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    label="Correo electrónico*"
+                    v-model="email"
+                    :rules="emailRules"
+                    required
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-form>
           </v-container>
           <small>* es un dato imprescindible</small>
         </v-card-text>
@@ -44,9 +50,7 @@
           <v-btn color="blue darken-1" text @click="dialog = false"
             >Cancelar</v-btn
           >
-          <v-btn color="blue darken-1" text @click="dialog = false"
-            >Enviar</v-btn
-          >
+          <v-btn color="blue darken-1" text @click="sendForm">Enviar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -54,9 +58,32 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data: () => ({
     dialog: false,
+    valid: true,
+    name: '',
+    surname: '',
+    email: '',
+    base: '//www.meridabadajoz.net/wp-json/newsletter/v1/subscribe',
+    emailRules: [
+      (v) => !!v || 'El correo electrónico es obligatorio',
+      (v) => /.+@.+\..+/.test(v) || 'Debe usar un correo electrónico válido',
+    ],
   }),
+  methods: {
+    async sendForm() {
+      if (this.$refs.form.validate()) {
+        await this.$axios.$post(`${this.base}`, {
+          name: this.name,
+          surname: this.surname,
+          email: this.email,
+        })
+
+        this.dialog = false
+      }
+    },
+  },
 }
 </script>

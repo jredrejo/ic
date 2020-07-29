@@ -15,7 +15,7 @@
         <circle8 size="100px"></circle8>
       </v-layout>
       <span v-show="!loading">
-        <!-- <banner /> -->
+        <banner />
         <suscripcion />
         <v-layout column wrap class="mt-1 pt-1" align-center>
           <v-flex xs12 sm4 pt8 class="my-3">
@@ -175,7 +175,7 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import 'babel-polyfill'
 import colors from 'vuetify/es5/util/colors'
-/*import Banner from '~/components/Banner'*/
+import Banner from '~/components/Banner'
 import Circle8 from '~/components/Circle8'
 import Suscripcion from '~/components/Suscripcion'
 import axios from 'axios'
@@ -185,7 +185,7 @@ export default {
   components: {
     Circle8,
     Suscripcion,
-    /*    Banner,*/
+    Banner,
   },
   data: () => ({
     selection: [],

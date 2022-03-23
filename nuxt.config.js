@@ -4,9 +4,15 @@ module.exports = {
    */
   head: {
     title: 'Iglesia en Camino',
+    htmlAttrs: {
+      lang: 'es',
+      class:'notranslate',
+      translate: 'no',
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'google', content: 'notranslate' },
       {
         hid: 'description',
         name: 'description',

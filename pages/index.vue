@@ -145,7 +145,16 @@
 
       <v-footer class="primary">
         <v-layout row wrap>
-          <v-flex xs6>
+          <v-flex xs12 lg12 sm12>
+            <div class="white--text align-content-end text-right">
+              <a
+                class="white--text"
+                href="https://iglesiaencamino.meridabadajoz.net/antiguos/index.html"
+                >Números antiguos (desde 1996) en formato html</a
+              >
+            </div>
+          </v-flex>
+        <v-flex xs6>
             <div class="white--text ml-1">
               Director:Juan José Montes
             </div>

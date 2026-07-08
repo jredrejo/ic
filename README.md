@@ -18,7 +18,7 @@ npm run preview  # sirve el build de producción
 npm run lint     # eslint
 ```
 
-Requiere Node 18 o superior.
+Requiere Node 22 o superior (hay un `.nvmrc`: con nvm basta `nvm use`).
 
 ## API de suscripción
 

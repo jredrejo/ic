@@ -37,5 +37,5 @@ Colors and typography come from the official identity manual in `/datos/web/arzo
 ## Code style
 
 - ESLint 9 flat config (`eslint.config.js`: vue/flat-recommended + prettier) and Prettier: single quotes, no semicolons (`.prettierrc.js`), 2-space indentation (`.editorconfig`).
-- `engines` requires Node >= 18. Vue 3 `<script setup>` SFCs throughout.
+- `engines` requires Node >= 22 (`.nvmrc` pins `lts/jod`; the user runs `nvm use lts/jod`). Vue 3 `<script setup>` SFCs throughout.
 - use codegraph mcp to explore code

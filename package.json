@@ -1,39 +1,34 @@
 {
   "name": "iglesiacamino",
-  "version": "1.0.0",
-  "description": "Galería PDF para revista Iglesia en Camino",
+  "version": "2.0.0",
+  "description": "Galería PDF para la revista Iglesia en Camino",
   "author": "José L. Redrejo Rodríguez <jredrejo@gmail.com>",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "generate": "vite build",
+    "lint": "eslint .",
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.10.3",
-    "@nuxtjs/google-analytics": "^2.2.3",
-    "babel-polyfill": "^6.26.0",
-    "material-design-icons-iconfont": "^5.0.1",
-    "nuxt": "^2.12.2",
-    "vuetify": "^2.2.26"
+    "@fontsource/alegreya": "^5.1.0",
+    "@fontsource/libre-bodoni": "^5.1.0",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.11.0",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
-    "eslint-friendly-formatter": "^4.0.1",
-    "eslint-loader": "^3.0.3",
-    "eslint-plugin-prettier": "^3.1.3",
-    "eslint-plugin-vue": "^6.2.2",
-    "prettier": "2.0.5"
+    "@vitejs/plugin-vue": "^5.2.1",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-vue": "^9.32.0",
+    "playwright-core": "^1.61.1",
+    "prettier": "^3.4.2",
+    "vite": "^5.4.11"
   },
   "engines": {
-    "node": "10.x",
-    "npm": ">= 3"
+    "node": ">=18",
+    "npm": ">=9"
   }
-
 }

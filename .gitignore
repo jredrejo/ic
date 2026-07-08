@@ -4,9 +4,9 @@ node_modules
 # logs
 npm-debug.log
 
-# Nuxt build
-.nuxt
-
-# Nuxt generate
+# build
 dist
-yarn.lock
+
+# local tooling
+.claude/
+.codegraph/
